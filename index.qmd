@@ -1,0 +1,12 @@
+---
+title: "Meta-análisis en R"
+---
+
+```{r}
+#| echo: false
+source("setup.R")
+```
+
+# Clase 2 {.titulo-clase background-image="forest_plot.svg" background-size="150px" background-repeat="repeat" background-opacity=".75"}
+
+------------------------------------------------------------------------
