@@ -40,6 +40,6 @@ ol{
 }
 
 /* Cambiar tamaño bloques de código */
-.reveal pre {
-  max-height: none;     /* Evita que el código se recorte */
-  }
+.bigcode pre code {
+  font-size: .9em;
+}

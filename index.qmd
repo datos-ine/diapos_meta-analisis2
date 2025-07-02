@@ -7,6 +7,555 @@ title: "Meta-análisis en R"
 source("setup.R")
 ```
 
-# Clase 2 {.titulo-clase background-image="forest_plot.svg" background-size="150px" background-repeat="repeat" background-opacity=".75"}
+# Clase 2: Control de la heterogeneidad {.titulo-clase background-image="forest_plot.svg" background-size="150px" background-repeat="repeat" background-opacity=".75"}
 
 ------------------------------------------------------------------------
+
+## Análisis de moderadores
+
+-   Permite identificar posibles fuentes de heterogeneidad entre los estudios incluidos en un meta-análisis.
+
+-   Hay dos tipos principales de análisis de moderadores:
+
+    -   **Análisis de subgrupos**: evalúa el efecto de variables categóricas (país, sexo, tipo de intervención, etc.).
+
+    -   **Metarregresión**: evalúa el efecto de variables numéricas (año de publicación, edad promedio, etc.).
+
+-   Las variables moderadoras deben definirse desde la etapa de extracción de datos en la revisión sistemática.
+
+------------------------------------------------------------------------
+
+## Análisis de subgrupos
+
+-   Permite plantear hipótesis estadísticas sobre posibles fuentes de heterogeneidad.
+
+-   Asume que los estudios no provienen de una población única, sino de distintos subgrupos poblacionales, cada uno con su efecto verdadero.
+
+-   El análisis consta de dos etapas:
+
+    -   Estimación del efecto **dentro de cada subgrupo**.
+    -   Prueba estadística para evaluar diferencias **entre subgrupos**.
+
+------------------------------------------------------------------------
+
+### Implementación en R
+
+-   Para realizar el análisis de subgrupos con el paquete `meta`, se utiliza el argumento `subgroup = var`, donde `var` es una variable categórica presente en el conjunto de datos.
+
+-   Esto ajusta internamente un modelo de meta-análisis para cada nivel de la variable categórica, con sus estimadores de efecto ($95\%~IC$) y heterogeneidad, además del estimador global ($95\%~IC$) y medidas de heterogeneidad.
+
+------------------------------------------------------------------------
+
+### Ejemplo
+
+-   A partir del dataset `dat.crisafulli2020`, queremos evaluar si el país de origen influye en el estimador global.
+
+-   Cargamos paquetes necesarios:
+
+    ```{r}
+    # Cargar paquetes
+    library(meta)       # Modelos de meta-análisis
+    library(janitor)    # Tablas de frecuencia
+    library(tidyverse)  # Manejo de datos
+    ```
+
+-   Cargamos los datos:
+
+    ```{r}
+    datos <- dat.crisafulli2020
+    ```
+
+------------------------------------------------------------------------
+
+-   Generamos una tabla de frecuencias usando el paquete `janitor`:
+
+    ```{r}
+    tabyl(datos, country) |> 
+      adorn_pct_formatting()
+    ```
+
+------------------------------------------------------------------------
+
+-   Italia concentra el 23% de los estudios; el resto de los países tiene baja frecuencia.
+
+-   Para realizar comparaciones válidas entre subgrupos, se recomienda tener al menos **5 estudios por categoría**.
+
+-   Creamos una variable dicotómica para `country`:
+
+    ```{r}
+    datos <- datos |> 
+      mutate(pais_cat = if_else(country == "IT", "Italia", "Otro"))
+
+    ## Tabla frecuencias
+    tabyl(datos, pais_cat) |> 
+      adorn_pct_formatting()
+    ```
+
+------------------------------------------------------------------------
+
+-   Ajustamos un modelo con `pais_cat` como moderador:
+
+    ```{r}
+    #| code-line-numbers: "4"
+    mod1 <- metaprop(event = cases,
+                     n = total,
+                     studlab = study,
+                     subgroup = pais_cat,
+                     data = datos)
+    ```
+
+------------------------------------------------------------------------
+
+#### Salida del modelo
+
+```{r}
+mod1
+```
+
+------------------------------------------------------------------------
+
+-   N° de estudios ($k$), eventos ($e$) y total de observaciones ($o$).
+
+-   Estimador de efecto global ($95\%~IC$), intervalo de predicción e indicadores de heterogeneidad.
+
+-   Estimadores de efectos por subgrupo ($95\%~IC$) y heterogeneidad dentro del grupo.
+
+-   Test de significancia para diferencias entre subgrupos.
+
+------------------------------------------------------------------------
+
+-   Podemos acceder al $p$-valor de la prueba usando:
+
+    ```{r}
+    mod1$pval.Q.b.random
+    ```
+
+-   Esto se interpreta como: el `mod1` (Italia vs. otros países) muestra diferencias estadísticamente significativas entre subgrupos.
+
+------------------------------------------------------------------------
+
+### *Forest plot*
+
+-   Generamos el gráfico para `mod1` usando `layout = "subgroup"`:
+
+    ```{r}
+    forest(mod1, 
+           layout = "subgroup",
+           calcwidth.hetstat = TRUE,
+           calcwidth.subgroup = TRUE,
+           pscale = 100000)
+    ```
+
+------------------------------------------------------------------------
+
+### Observaciones
+
+-   El análisis de subgrupos es un híbrido entre los modelos de efectos fijos y aleatorios:
+
+    -   Como en los modelos de efectos aleatorios, cada categoría tiene su propio efecto verdadero.
+    -   Pero las categorías (por ejemplo, países, sexos, regiones) no se consideran aleatorias, sino **fijas**.
+
+-   Por esta razón también se le conoce como modelo de efectos fijos plurales o **modelo de efectos mixtos**.
+
+------------------------------------------------------------------------
+
+### Limitaciones
+
+-   Si la heterogeneidad es alta, los $95\%~IC$ ser amplios y superponerse, aún cuando las diferencias sean estadísticamente significativas.
+-   **Baja potencia estadística**: el tamaño muestral por subgrupo es menor que en el análisis global.
+-   La ausencia de significancia **no implica** **equivalencia** entre los subgrupos.
+-   No permite evaluar causalidad: **solo es adecuado para estudios observacionales**.
+
+------------------------------------------------------------------------
+
+## Metarregresión
+
+-   Utiliza el modelo de **efectos mixtos** para predecir el estimador de efecto global en base a una o más variables independientes.
+
+-   Para predictores categóricos es equivalente al análisis de subgrupos.
+
+-   Para predictores continuos ajusta una recta de regresión que intenta minimizar la diferencia entre el estimador de efecto predicho y el verdadero estimador de efecto.
+
+------------------------------------------------------------------------
+
+### Implementación en R
+
+-   Comenzamos ajustando un modelo de efectos aleatorios sin subgrupos:
+
+    ```{r}
+    mod2 <- metaprop(event = cases,
+                     n = total,
+                     studlab = study,
+                     common = FALSE,
+                     data = datos,
+                     prediction = TRUE)
+    ```
+
+------------------------------------------------------------------------
+
+### Predictor categórico
+
+-   Cuando el predictor es categórico, como `pais_cat`, la metarregresión es análoga al análisis de subgrupos.
+
+-   Como en las regresiones se compara cada nivel con una categoría de referencia, obtenemos la comparación para cada nivel **omitiendo el intercepto** (como en un ANOVA):
+
+    ```{r}
+    reg1 <- metareg(mod2, 
+                    formula = ~ fct_rev(pais_cat),
+                    intercept = FALSE)
+    ```
+
+------------------------------------------------------------------------
+
+-   Los coeficientes se muestran en escala logarítmica, exponenciamos para obtener las proporciones:
+
+    ```{r}
+    coef(reg1) |> 
+      exp()
+    ```
+
+-   Los valores exponenciados son similares a los obtenidos en el análisis de subgrupos:
+
+    ```{r}
+    mod1
+    ```
+
+------------------------------------------------------------------------
+
+### Predictor numérico
+
+-   Ajustaremos un modelo de metarregresión usando `pubyear` como predictor.
+
+-   En este caso, como la variable independiente es numérica, nos interesa mantener el intercepto:
+
+    ```{r}
+    # Ajustar modelo
+    reg2 <- metareg(mod2, 
+                    formula = ~ pubyear,
+                    intercept = TRUE)
+    ```
+
+------------------------------------------------------------------------
+
+-   Obtenemos la siguiente salida:
+
+    ```{r}
+    summary(reg2)
+    ```
+
+------------------------------------------------------------------------
+
+-   `Mixed-Effects Model:` muestra como cambia la heterogeneidad al añadir el moderador continuo y (según el estimador) el $R^2$ del modelo.
+
+-   `Model results` presenta los coeficientes del modelo para el intercepto y el moderador, con su significancia estadística y $95\%~IC$.
+
+------------------------------------------------------------------------
+
+### *Bubble plots*
+
+-   Representación gráfica de la relación entre el estimador de efecto y un moderador continuo:
+    -   El eje $X$ muestra la variable moderadora, mientras que el eje $Y$ muestra el estimador de efecto.
+    -   Se incluye una **recta de regresión** que resume la tendencia del efecto en función del moderador.
+    -   Cada burbuja representa un estudio y su tamaño suele ser proporcional al peso del estudio.
+
+------------------------------------------------------------------------
+
+```{r}
+bubble(reg2,
+       col.line = "magenta",  # Color de la recta de regresión
+       cex = 1/reg2$vi * 0.01   # Función para controlar el tamaño de las burbujas
+       )
+```
+
+------------------------------------------------------------------------
+
+### Metarregresión múltiple
+
+-   **Modelo aditivo:** asume que cada moderador tiene un efecto **independiente** sobre el estimador de efecto.
+
+    ```{r}
+    #| eval: false
+    reg3 <- metareg(mod2, formula = ~ pubyear + pais_cat)
+    ```
+
+-   **Modelo multiplicativo**: permite modelar **interacciones**, es decir, que el efecto de un moderador cambie según el nivel de otro:
+
+    ```{r}
+    #| eval: false
+    reg4 <- metareg(mod2, formula = ~ pubyear * pais_cat)
+    ```
+
+------------------------------------------------------------------------
+
+### Limitaciones
+
+-   El modelo multiplicativo permite que el efecto de un moderador dependa del nivel del otro, pero:
+    -   Aumenta la **complejidad** y el riesgo de **sobreajuste**.
+
+    -   Requiere mayor número de estudios por combinación de niveles.
+
+    -   Puede introducir **colinealidad** entre variables.
+-   Si el término de interacción no es significativo, usar **modelo aditivo**.
+
+------------------------------------------------------------------------
+
+### Sesgo de publicación
+
+-   Se refiere a la mayor probabilidad de publicar estudios con:
+    -   Resultados positivos.
+
+    -   Significancia estadística.
+
+    -   Efectos de gran magnitud.
+-   Esto puede distorsionar/sobreestimar los resultados de un meta-análisis.
+-   Existen diversas herramientas para detectarlo: *funnel plots*, test de Egger, test de Begg, *trim-and-fill*, entre otros.
+
+------------------------------------------------------------------------
+
+### *Funnel plots*
+
+-   Presenta en el eje $Y$ el tamaño muestral o la precisión de los estudios, y en el eje $X$ el estimador de efecto para cada estudio.
+
+-   Se espera una distribución simétrica que forme un patrón similar a un embudo.
+
+-   En R se obtienen con la función `funnel()`
+
+------------------------------------------------------------------------
+
+```{r}
+funnel(mod2)
+```
+
+------------------------------------------------------------------------
+
+### Test de Egger
+
+-   Evalúa la simetría del *funnel plot* mediante una regresión lineal entre el estimador de efecto y su error estándar.
+
+-   No permite evaluar sesgo en modelos multinivel.
+
+    ```{r}
+    metabias(mod2)
+    ```
+
+------------------------------------------------------------------------
+
+### Test de Begg
+
+-   Utiliza la correlación de rangos para evaluar la relación entre el tamaño del efecto y el error estándar.
+
+-   No permite evaluar sesgo en modelos multinivel.
+
+    ```{r}
+    metabias(mod2, method.bias = "begg")
+    ```
+
+------------------------------------------------------------------------
+
+### *Trim-and-fill*
+
+-   Estima el número de estudios faltantes debido al sesgo de publicación y ajusta la media global en consecuencia generando estudios hipotéticos.
+
+    ```{r}
+    trimfill(mod2)
+    ```
+
+------------------------------------------------------------------------
+
+## Modelos multinivel
+
+-   Cuando un mismo estudio aporta múltiples estimadores de efecto (distintos moderadores), se necesita modelar la **falta de independencia** entre los mismos.
+
+-   Si bien todos los modelos de meta-análisis pueden considerarse como multinivel, este término refiere específicamente a aquellos que incorporan una tercera capa de variabilidad llamada **heterogeneidad intraestudio**.
+
+    ```{r}
+    #| echo: false
+    # Limpiar environment
+    rm(list = ls())
+    ```
+
+------------------------------------------------------------------------
+
+### Implementación en R
+
+-   Usaremos el dataset `dat.bornmann2007` sobre sesgo de género en adjudicación de becas y subsidios de investigación:
+
+    ```{r}
+    # Cargar datos
+    datos_multi  <- dat.bornmann2007 |>    
+      # Crear identificador único para cada fila
+      rowid_to_column(var = "id")
+    ```
+
+-   Podemos ajustar modelos multinivel con `meta` añadiendo el argumento `cluster`.
+
+------------------------------------------------------------------------
+
+-   Como cada estudio aporta más de una observación, usamos `study` como clúster y el número de fila (`id`) como identificador único:
+
+    ```{r}
+    #| code-line-numbers: "8-10" 
+    mod_multi <- metabin(event.e = waward,   # Mujeres becadas
+                         n.e = wtotal,       # Total mujeres
+                         event.c = maward,   # Varones becados
+                         n.c = mtotal,       # Total varones
+                         data = datos_multi,
+                         sm = "OR",
+                         common = FALSE,
+                         studlab = id,
+                         cluster = study,
+                         subgroup = type
+                         )
+    ```
+
+------------------------------------------------------------------------
+
+```{r}
+mod_multi
+```
+
+-   `tau^2.1`: es la heterogeneidad entre clústers (estudios).
+
+-   `tau^2.2`: es la heterogeneidad intra-clúster (estudio).
+
+------------------------------------------------------------------------
+
+-   Para obtener valores de $I^2$, bondad de ajuste y/o analizar sesgo de publicación, debemos ajustar el modelo multinivel usando `metafor`.
+
+-   Esto a su vez nos permite usar herramientas para gráficos avanzados como `metaviz` y `orchaRd`:
+
+    ```{r}
+    #| eval: false
+    # Instalar paquetes adicionales
+        remotes::install_github("daniel1noble/orchaRd")
+        remotes::install_github("MathiasHarrer/dmetar")
+        install.packages("metaviz")
+    ```
+
+    ```{r}
+    # Cargar paquetes
+    pacman::p_load(
+      metafor,
+      dmetar,
+      orchaRd,
+      metaviz
+    )
+    ```
+
+------------------------------------------------------------------------
+
+-   Primero calculamos los estimadores de efecto individuales con `escalc()`:
+
+    ```{r}
+    datos_multi <- escalc(measure = "OR", 
+                            ai = waward,
+                            n1i = wtotal,
+                            ci = maward,
+                            n2i = mtotal,
+                            data = datos_multi, 
+                            slab = study)
+    ```
+
+-   Ajustamos el modelo con `rma.mv()`:
+
+    ```{r}
+    mod_multi2 <- rma.mv(yi = yi,
+                             V = vi,
+                             data = datos_multi,
+                             random = ~  1|study/id,
+                             mods = ~ type)
+    ```
+
+------------------------------------------------------------------------
+
+-   Podemos ver la tabla de coeficientes (en log-OR) con la función `mod_results()` de `orchaRd`:
+
+    ```{r}
+    mod_results(mod_multi2, 
+                group = "study",
+                mod = "type")
+    ```
+
+-   La bondad de ajuste ($R^2$) se obtiene con la función `r2_ml()`:
+
+    ```{r}
+    r2_ml(mod_multi2)
+    ```
+
+------------------------------------------------------------------------
+
+-   Accedemos a los $I^2$ intra e interclúster con `i2_ml()` de `orchaRd`:
+
+    ```{r}
+    i2_ml(mod_multi2)
+    ```
+
+------------------------------------------------------------------------
+
+-   Podemos graficar el aporte de cada componente de varianza usando `dmetar`:
+
+    ```{r}
+    mlm.variance.distribution(mod_multi2) |> 
+      plot()
+    ```
+
+------------------------------------------------------------------------
+
+-   Para evaluar sesgo de publicación quitamos los moderadores del modelo:
+
+    ```{r}
+    mod_bias <- update(mod_multi2, mods = ~ 1)
+    ```
+
+-   Evaluamos sesgo de publicación (solo test de Begg):
+
+    ```{r}
+    ranktest(mod_bias)
+    ```
+
+------------------------------------------------------------------------
+
+-   Podemos generar *funnel plots* visualmente atractivos con `metaviz`:
+
+    ```{r}
+    viz_funnel(mod_bias, 
+               group = factor(datos_multi$type)) +
+      
+      scale_color_viridis_d()
+    ```
+
+------------------------------------------------------------------------
+
+### Orchard plot
+
+```{r}
+orchard_plot(mod_multi2, mod = "type", group = "study",
+             xlab = "log(OR)")
+```
+
+------------------------------------------------------------------------
+
+### Caterpillar plot
+
+```{r}
+caterpillars(mod_multi2, mod = "type", group = "study",
+             xlab = "log(OR)")
+```
+
+------------------------------------------------------------------------
+
+### Análisis de sensibilidad
+
+```{r}
+# Leave-one-out
+leave1 <- leave_one_out(mod_multi2, group = "study")
+
+# Gráfico
+orchard_leave1out(leave1, xlab = "log(OR)")
+```
+
+------------------------------------------------------------------------
+
+![](images/1659256292304.jpg){fig-align="center" width="70%"}
+
+#### Muchas gracias!!! {style="text-align: center"}

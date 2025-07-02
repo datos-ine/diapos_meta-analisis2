@@ -27,8 +27,73 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-<link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-8f3eebe07241f08526c91a7e9cbef8fd.css">
+<link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-f1692b36d0a3acdc10f98b7915f5acdb.css">
 <link rel="stylesheet" href="custom.css">
 <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
 <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -133,9 +198,690 @@
 <div class="quarto-title-authors">
 </div>
 
-</section><section><section id="clase-2" class="title-slide slide level1 titulo-clase center" data-background-image="forest_plot.svg" data-background-size="150px" data-background-repeat="repeat" data-background-opacity=".75"><h1>Clase 2</h1>
+</section><section><section id="clase-2-control-de-la-heterogeneidad" class="title-slide slide level1 titulo-clase center" data-background-image="forest_plot.svg" data-background-size="150px" data-background-repeat="repeat" data-background-opacity=".75"><h1>Clase 2: Control de la heterogeneidad</h1>
 
-</section><section class="slide level2">
+</section><section id="análisis-de-moderadores" class="slide level2"><h2>Análisis de moderadores</h2>
+<ul>
+<li class="fragment"><p>Permite identificar posibles fuentes de heterogeneidad entre los estudios incluidos en un meta-análisis.</p></li>
+<li class="fragment">
+<p>Hay dos tipos principales de análisis de moderadores:</p>
+<ul>
+<li class="fragment"><p><strong>Análisis de subgrupos</strong>: evalúa el efecto de variables categóricas (país, sexo, tipo de intervención, etc.).</p></li>
+<li class="fragment"><p><strong>Metarregresión</strong>: evalúa el efecto de variables numéricas (año de publicación, edad promedio, etc.).</p></li>
+</ul>
+</li>
+<li class="fragment"><p>Las variables moderadoras deben definirse desde la etapa de extracción de datos en la revisión sistemática.</p></li>
+</ul></section><section id="análisis-de-subgrupos" class="slide level2"><h2>Análisis de subgrupos</h2>
+<ul>
+<li class="fragment"><p>Permite plantear hipótesis estadísticas sobre posibles fuentes de heterogeneidad.</p></li>
+<li class="fragment"><p>Asume que los estudios no provienen de una población única, sino de distintos subgrupos poblacionales, cada uno con su efecto verdadero.</p></li>
+<li class="fragment">
+<p>El análisis consta de dos etapas:</p>
+<ul>
+<li class="fragment">Estimación del efecto <strong>dentro de cada subgrupo</strong>.</li>
+<li class="fragment">Prueba estadística para evaluar diferencias <strong>entre subgrupos</strong>.</li>
+</ul>
+</li>
+</ul></section><section class="slide level2"><h3 id="implementación-en-r">Implementación en R</h3>
+<ul>
+<li class="fragment"><p>Para realizar el análisis de subgrupos con el paquete <code>meta</code>, se utiliza el argumento <code>subgroup = var</code>, donde <code>var</code> es una variable categórica presente en el conjunto de datos.</p></li>
+<li class="fragment"><p>Esto ajusta internamente un modelo de meta-análisis para cada nivel de la variable categórica, con sus estimadores de efecto (<span class="math inline">\(95\%~IC\)</span>) y heterogeneidad, además del estimador global (<span class="math inline">\(95\%~IC\)</span>) y medidas de heterogeneidad.</p></li>
+</ul></section><section class="slide level2"><h3 id="ejemplo">Ejemplo</h3>
+<ul>
+<li class="fragment"><p>A partir del dataset <code>dat.crisafulli2020</code>, queremos evaluar si el país de origen influye en el estimador global.</p></li>
+<li class="fragment">
+<p>Cargamos paquetes necesarios:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Cargar paquetes</span></span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(meta)       <span class="co"># Modelos de meta-análisis</span></span>
+<span id="cb1-3"><a href=""></a><span class="fu">library</span>(janitor)    <span class="co"># Tablas de frecuencia</span></span>
+<span id="cb1-4"><a href=""></a><span class="fu">library</span>(tidyverse)  <span class="co"># Manejo de datos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+<li class="fragment">
+<p>Cargamos los datos:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>datos <span class="ot">&lt;-</span> dat.crisafulli2020</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Generamos una tabla de frecuencias usando el paquete <code>janitor</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">tabyl</span>(datos, country) <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href=""></a>  <span class="fu">adorn_pct_formatting</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> country n percent
+      AU 1    3.8%
+      BE 1    3.8%
+      CA 3   11.5%
+      CY 1    3.8%
+      DE 1    3.8%
+      DK 1    3.8%
+      EE 1    3.8%
+      FR 1    3.8%
+      IT 6   23.1%
+      JP 2    7.7%
+      NL 1    3.8%
+      NO 1    3.8%
+      NZ 1    3.8%
+      SI 1    3.8%
+      UK 3   11.5%
+      US 1    3.8%</code></pre>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment"><p>Italia concentra el 23% de los estudios; el resto de los países tiene baja frecuencia.</p></li>
+<li class="fragment"><p>Para realizar comparaciones válidas entre subgrupos, se recomienda tener al menos <strong>5 estudios por categoría</strong>.</p></li>
+<li class="fragment">
+<p>Creamos una variable dicotómica para <code>country</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>datos <span class="ot">&lt;-</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">pais_cat =</span> <span class="fu">if_else</span>(country <span class="sc">==</span> <span class="st">"IT"</span>, <span class="st">"Italia"</span>, <span class="st">"Otro"</span>))</span>
+<span id="cb5-3"><a href=""></a></span>
+<span id="cb5-4"><a href=""></a><span class="do">## Tabla frecuencias</span></span>
+<span id="cb5-5"><a href=""></a><span class="fu">tabyl</span>(datos, pais_cat) <span class="sc">|&gt;</span> </span>
+<span id="cb5-6"><a href=""></a>  <span class="fu">adorn_pct_formatting</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> pais_cat  n percent
+   Italia  6   23.1%
+     Otro 20   76.9%</code></pre>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Ajustamos un modelo con <code>pais_cat</code> como moderador:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7" data-code-line-numbers="4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>mod1 <span class="ot">&lt;-</span> <span class="fu">metaprop</span>(<span class="at">event =</span> cases,</span>
+<span id="cb7-2"><a href=""></a>                 <span class="at">n =</span> total,</span>
+<span id="cb7-3"><a href=""></a>                 <span class="at">studlab =</span> study,</span>
+<span id="cb7-4"><a href=""></a>                 <span class="at">subgroup =</span> pais_cat,</span>
+<span id="cb7-5"><a href=""></a>                 <span class="at">data =</span> datos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section class="slide level2"><h4 id="salida-del-modelo">Salida del modelo</h4>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>mod1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of studies: k = 26
+Number of observations: o = 6831388
+Number of events: e = 1545
+
+                     proportion           95%-CI
+Common effect model      0.0002 [0.0002; 0.0002]
+Random effects model     0.0002 [0.0002; 0.0002]
+
+Quantifying heterogeneity (with 95%-CIs):
+ tau^2 = 0.0126; tau = 0.1121; I^2 = 33.2% [0.0%; 58.6%]; H = 1.22 [1.00; 1.55]
+
+Test of heterogeneity:
+          Q d.f. p-value
+ Wald 37.41   25  0.0527
+ LRT  39.01   25  0.0368
+
+Results for subgroups (common effect model):
+                    k proportion           95%-CI     Q   I^2
+pais_cat = Otro    20     0.0002 [0.0002; 0.0002] 26.02 27.0%
+pais_cat = Italia   6     0.0002 [0.0002; 0.0003]  5.97 16.2%
+
+Test for subgroup differences (common effect model):
+                  Q d.f. p-value
+Between groups 6.03    1  0.0141
+
+Results for subgroups (random effects model):
+                    k proportion           95%-CI  tau^2    tau
+pais_cat = Otro    20     0.0002 [0.0002; 0.0002] 0.0122 0.1104
+pais_cat = Italia   6     0.0003 [0.0002; 0.0003] 0.0033 0.0577
+
+Test for subgroup differences (random effects model):
+                  Q d.f. p-value
+Between groups 6.22    1  0.0126
+
+Details of meta-analysis methods:
+- Random intercept logistic regression model
+- Maximum-likelihood estimator for tau^2
+- Calculation of I^2 based on Q
+- Logit transformation</code></pre>
+</div>
+</div>
+</section><section class="slide level2"><ul>
+<li class="fragment"><p>N° de estudios (<span class="math inline">\(k\)</span>), eventos (<span class="math inline">\(e\)</span>) y total de observaciones (<span class="math inline">\(o\)</span>).</p></li>
+<li class="fragment"><p>Estimador de efecto global (<span class="math inline">\(95\%~IC\)</span>), intervalo de predicción e indicadores de heterogeneidad.</p></li>
+<li class="fragment"><p>Estimadores de efectos por subgrupo (<span class="math inline">\(95\%~IC\)</span>) y heterogeneidad dentro del grupo.</p></li>
+<li class="fragment"><p>Test de significancia para diferencias entre subgrupos.</p></li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Podemos acceder al <span class="math inline">\(p\)</span>-valor de la prueba usando:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>mod1<span class="sc">$</span>pval.Q.b.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0125965</code></pre>
+</div>
+</div>
+</li>
+<li class="fragment"><p>Esto se interpreta como: el <code>mod1</code> (Italia vs.&nbsp;otros países) muestra diferencias estadísticamente significativas entre subgrupos.</p></li>
+</ul></section><section class="slide level2"><h3 id="forest-plot"><em>Forest plot</em></h3>
+<ul>
+<li class="fragment">
+<p>Generamos el gráfico para <code>mod1</code> usando <code>layout = "subgroup"</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">forest</span>(mod1, </span>
+<span id="cb12-2"><a href=""></a>       <span class="at">layout =</span> <span class="st">"subgroup"</span>,</span>
+<span id="cb12-3"><a href=""></a>       <span class="at">calcwidth.hetstat =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-4"><a href=""></a>       <span class="at">calcwidth.subgroup =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-5"><a href=""></a>       <span class="at">pscale =</span> <span class="dv">100000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure><p><img data-src="index_files/figure-revealjs/unnamed-chunk-9-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><h3 id="observaciones">Observaciones</h3>
+<ul>
+<li class="fragment">
+<p>El análisis de subgrupos es un híbrido entre los modelos de efectos fijos y aleatorios:</p>
+<ul>
+<li class="fragment">Como en los modelos de efectos aleatorios, cada categoría tiene su propio efecto verdadero.</li>
+<li class="fragment">Pero las categorías (por ejemplo, países, sexos, regiones) no se consideran aleatorias, sino <strong>fijas</strong>.</li>
+</ul>
+</li>
+<li class="fragment"><p>Por esta razón también se le conoce como modelo de efectos fijos plurales o <strong>modelo de efectos mixtos</strong>.</p></li>
+</ul></section><section class="slide level2"><h3 id="limitaciones">Limitaciones</h3>
+<ul>
+<li class="fragment">Si la heterogeneidad es alta, los <span class="math inline">\(95\%~IC\)</span> ser amplios y superponerse, aún cuando las diferencias sean estadísticamente significativas.</li>
+<li class="fragment">
+<strong>Baja potencia estadística</strong>: el tamaño muestral por subgrupo es menor que en el análisis global.</li>
+<li class="fragment">La ausencia de significancia <strong>no implica</strong> <strong>equivalencia</strong> entre los subgrupos.</li>
+<li class="fragment">No permite evaluar causalidad: <strong>solo es adecuado para estudios observacionales</strong>.</li>
+</ul></section><section id="metarregresión" class="slide level2"><h2>Metarregresión</h2>
+<ul>
+<li class="fragment"><p>Utiliza el modelo de <strong>efectos mixtos</strong> para predecir el estimador de efecto global en base a una o más variables independientes.</p></li>
+<li class="fragment"><p>Para predictores categóricos es equivalente al análisis de subgrupos.</p></li>
+<li class="fragment"><p>Para predictores continuos ajusta una recta de regresión que intenta minimizar la diferencia entre el estimador de efecto predicho y el verdadero estimador de efecto.</p></li>
+</ul></section><section class="slide level2"><h3 id="implementación-en-r-1">Implementación en R</h3>
+<ul>
+<li class="fragment">
+<p>Comenzamos ajustando un modelo de efectos aleatorios sin subgrupos:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>mod2 <span class="ot">&lt;-</span> <span class="fu">metaprop</span>(<span class="at">event =</span> cases,</span>
+<span id="cb13-2"><a href=""></a>                 <span class="at">n =</span> total,</span>
+<span id="cb13-3"><a href=""></a>                 <span class="at">studlab =</span> study,</span>
+<span id="cb13-4"><a href=""></a>                 <span class="at">common =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-5"><a href=""></a>                 <span class="at">data =</span> datos,</span>
+<span id="cb13-6"><a href=""></a>                 <span class="at">prediction =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section class="slide level2"><h3 id="predictor-categórico">Predictor categórico</h3>
+<ul>
+<li class="fragment"><p>Cuando el predictor es categórico, como <code>pais_cat</code>, la metarregresión es análoga al análisis de subgrupos.</p></li>
+<li class="fragment">
+<p>Como en las regresiones se compara cada nivel con una categoría de referencia, obtenemos la comparación para cada nivel <strong>omitiendo el intercepto</strong> (como en un ANOVA):</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>reg1 <span class="ot">&lt;-</span> <span class="fu">metareg</span>(mod2, </span>
+<span id="cb14-2"><a href=""></a>                <span class="at">formula =</span> <span class="sc">~</span> <span class="fu">fct_rev</span>(pais_cat),</span>
+<span id="cb14-3"><a href=""></a>                <span class="at">intercept =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Los coeficientes se muestran en escala logarítmica, exponenciamos para obtener las proporciones:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">coef</span>(reg1) <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href=""></a>  <span class="fu">exp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  fct_rev(pais_cat)Otro fct_rev(pais_cat)Italia 
+           0.0002105035            0.0002518055 </code></pre>
+</div>
+</div>
+</li>
+<li class="fragment">
+<p>Los valores exponenciados son similares a los obtenidos en el análisis de subgrupos:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>mod1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of studies: k = 26
+Number of observations: o = 6831388
+Number of events: e = 1545
+
+                     proportion           95%-CI
+Common effect model      0.0002 [0.0002; 0.0002]
+Random effects model     0.0002 [0.0002; 0.0002]
+
+Quantifying heterogeneity (with 95%-CIs):
+ tau^2 = 0.0126; tau = 0.1121; I^2 = 33.2% [0.0%; 58.6%]; H = 1.22 [1.00; 1.55]
+
+Test of heterogeneity:
+          Q d.f. p-value
+ Wald 37.41   25  0.0527
+ LRT  39.01   25  0.0368
+
+Results for subgroups (common effect model):
+                    k proportion           95%-CI     Q   I^2
+pais_cat = Otro    20     0.0002 [0.0002; 0.0002] 26.02 27.0%
+pais_cat = Italia   6     0.0002 [0.0002; 0.0003]  5.97 16.2%
+
+Test for subgroup differences (common effect model):
+                  Q d.f. p-value
+Between groups 6.03    1  0.0141
+
+Results for subgroups (random effects model):
+                    k proportion           95%-CI  tau^2    tau
+pais_cat = Otro    20     0.0002 [0.0002; 0.0002] 0.0122 0.1104
+pais_cat = Italia   6     0.0003 [0.0002; 0.0003] 0.0033 0.0577
+
+Test for subgroup differences (random effects model):
+                  Q d.f. p-value
+Between groups 6.22    1  0.0126
+
+Details of meta-analysis methods:
+- Random intercept logistic regression model
+- Maximum-likelihood estimator for tau^2
+- Calculation of I^2 based on Q
+- Logit transformation</code></pre>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><h3 id="predictor-numérico">Predictor numérico</h3>
+<ul>
+<li class="fragment"><p>Ajustaremos un modelo de metarregresión usando <code>pubyear</code> como predictor.</p></li>
+<li class="fragment">
+<p>En este caso, como la variable independiente es numérica, nos interesa mantener el intercepto:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="co"># Ajustar modelo</span></span>
+<span id="cb19-2"><a href=""></a>reg2 <span class="ot">&lt;-</span> <span class="fu">metareg</span>(mod2, </span>
+<span id="cb19-3"><a href=""></a>                <span class="at">formula =</span> <span class="sc">~</span> pubyear,</span>
+<span id="cb19-4"><a href=""></a>                <span class="at">intercept =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Obtenemos la siguiente salida:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">summary</span>(reg2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Mixed-Effects Model (k = 26; tau^2 estimator: ML)
+
+  logLik  deviance       AIC       BIC      AICc   
+-75.9315   14.5514  157.8629  161.6372  158.9538   
+
+tau^2 (estimated amount of residual heterogeneity):     0.0067
+tau (square root of estimated tau^2 value):             0.0816
+I^2 (residual heterogeneity / unaccounted variability): 26.61%
+H^2 (unaccounted variability / sampling variability):   1.36
+
+Tests for Residual Heterogeneity:
+Wld(df = 24) = 28.8391, p-val = 0.2262
+LRT(df = 24) = 30.5162, p-val = 0.1682
+
+Test of Moderators (coefficient 2):
+QM(df = 1) = 7.1208, p-val = 0.0076
+
+Model Results:
+
+         estimate      se     zval    pval    ci.lb    ci.ub     
+intrcpt    8.5560  6.3550   1.3463  0.1782  -3.8996  21.0116     
+pubyear   -0.0085  0.0032  -2.6685  0.0076  -0.0148  -0.0023  ** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment"><p><code>Mixed-Effects Model:</code> muestra como cambia la heterogeneidad al añadir el moderador continuo y (según el estimador) el <span class="math inline">\(R^2\)</span> del modelo.</p></li>
+<li class="fragment"><p><code>Model results</code> presenta los coeficientes del modelo para el intercepto y el moderador, con su significancia estadística y <span class="math inline">\(95\%~IC\)</span>.</p></li>
+</ul></section><section class="slide level2"><h3 id="bubble-plots"><em>Bubble plots</em></h3>
+<ul>
+<li class="fragment">Representación gráfica de la relación entre el estimador de efecto y un moderador continuo:
+<ul>
+<li class="fragment">El eje <span class="math inline">\(X\)</span> muestra la variable moderadora, mientras que el eje <span class="math inline">\(Y\)</span> muestra el estimador de efecto.</li>
+<li class="fragment">Se incluye una <strong>recta de regresión</strong> que resume la tendencia del efecto en función del moderador.</li>
+<li class="fragment">Cada burbuja representa un estudio y su tamaño suele ser proporcional al peso del estudio.</li>
+</ul>
+</li>
+</ul></section><section class="slide level2"><div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">bubble</span>(reg2,</span>
+<span id="cb22-2"><a href=""></a>       <span class="at">col.line =</span> <span class="st">"magenta"</span>,  <span class="co"># Color de la recta de regresión</span></span>
+<span id="cb22-3"><a href=""></a>       <span class="at">cex =</span> <span class="dv">1</span><span class="sc">/</span>reg2<span class="sc">$</span>vi <span class="sc">*</span> <span class="fl">0.01</span>   <span class="co"># Función para controlar el tamaño de las burbujas</span></span>
+<span id="cb22-4"><a href=""></a>       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section><section class="slide level2"><h3 id="metarregresión-múltiple">Metarregresión múltiple</h3>
+<ul>
+<li class="fragment">
+<p><strong>Modelo aditivo:</strong> asume que cada moderador tiene un efecto <strong>independiente</strong> sobre el estimador de efecto.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>reg3 <span class="ot">&lt;-</span> <span class="fu">metareg</span>(mod2, <span class="at">formula =</span> <span class="sc">~</span> pubyear <span class="sc">+</span> pais_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+<li class="fragment">
+<p><strong>Modelo multiplicativo</strong>: permite modelar <strong>interacciones</strong>, es decir, que el efecto de un moderador cambie según el nivel de otro:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>reg4 <span class="ot">&lt;-</span> <span class="fu">metareg</span>(mod2, <span class="at">formula =</span> <span class="sc">~</span> pubyear <span class="sc">*</span> pais_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section class="slide level2"><h3 id="limitaciones-1">Limitaciones</h3>
+<ul>
+<li class="fragment">El modelo multiplicativo permite que el efecto de un moderador dependa del nivel del otro, pero:
+<ul>
+<li class="fragment"><p>Aumenta la <strong>complejidad</strong> y el riesgo de <strong>sobreajuste</strong>.</p></li>
+<li class="fragment"><p>Requiere mayor número de estudios por combinación de niveles.</p></li>
+<li class="fragment"><p>Puede introducir <strong>colinealidad</strong> entre variables.</p></li>
+</ul>
+</li>
+<li class="fragment">Si el término de interacción no es significativo, usar <strong>modelo aditivo</strong>.</li>
+</ul></section><section class="slide level2"><h3 id="sesgo-de-publicación">Sesgo de publicación</h3>
+<ul>
+<li class="fragment">Se refiere a la mayor probabilidad de publicar estudios con:
+<ul>
+<li class="fragment"><p>Resultados positivos.</p></li>
+<li class="fragment"><p>Significancia estadística.</p></li>
+<li class="fragment"><p>Efectos de gran magnitud.</p></li>
+</ul>
+</li>
+<li class="fragment">Esto puede distorsionar/sobreestimar los resultados de un meta-análisis.</li>
+<li class="fragment">Existen diversas herramientas para detectarlo: <em>funnel plots</em>, test de Egger, test de Begg, <em>trim-and-fill</em>, entre otros.</li>
+</ul></section><section class="slide level2"><h3 id="funnel-plots"><em>Funnel plots</em></h3>
+<ul>
+<li class="fragment"><p>Presenta en el eje <span class="math inline">\(Y\)</span> el tamaño muestral o la precisión de los estudios, y en el eje <span class="math inline">\(X\)</span> el estimador de efecto para cada estudio.</p></li>
+<li class="fragment"><p>Se espera una distribución simétrica que forme un patrón similar a un embudo.</p></li>
+<li class="fragment"><p>En R se obtienen con la función <code>funnel()</code></p></li>
+</ul></section><section class="slide level2"><div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">funnel</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section><section class="slide level2"><h3 id="test-de-egger">Test de Egger</h3>
+<ul>
+<li class="fragment"><p>Evalúa la simetría del <em>funnel plot</em> mediante una regresión lineal entre el estimador de efecto y su error estándar.</p></li>
+<li class="fragment">
+<p>No permite evaluar sesgo en modelos multinivel.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">metabias</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear regression test of funnel plot asymmetry
+
+Test result: t = -1.45, df = 24, p-value = 0.1603
+Bias estimate: -0.6649 (SE = 0.4589)
+
+Details:
+- multiplicative residual heterogeneity variance (tau^2 = 1.4335)
+- predictor: standard error
+- weight:    inverse variance
+- reference: Egger et al. (1997), BMJ</code></pre>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><h3 id="test-de-begg">Test de Begg</h3>
+<ul>
+<li class="fragment"><p>Utiliza la correlación de rangos para evaluar la relación entre el tamaño del efecto y el error estándar.</p></li>
+<li class="fragment">
+<p>No permite evaluar sesgo en modelos multinivel.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">metabias</span>(mod2, <span class="at">method.bias =</span> <span class="st">"begg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rank correlation test of funnel plot asymmetry
+
+Test result: z = -0.90, p-value = 0.3662
+Bias estimate: -41.0000 (SE = 45.3689)
+
+Reference: Begg &amp; Mazumdar (1993), Biometrics</code></pre>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><h3 id="trim-and-fill"><em>Trim-and-fill</em></h3>
+<ul>
+<li class="fragment">
+<p>Estima el número de estudios faltantes debido al sesgo de publicación y ajusta la media global en consecuencia generando estudios hipotéticos.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">trimfill</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of studies: k = 32 (with 6 added studies)
+
+                     proportion           95%-CI
+Random effects model     0.0002 [0.0002; 0.0003]
+Prediction interval             [0.0002; 0.0003]
+
+Quantifying heterogeneity (with 95%-CIs):
+ tau^2 = 0.0181; tau = 0.1344; I^2 = 42.4% [12.2%; 62.2%]; H = 1.32 [1.07; 1.63]
+
+Test of heterogeneity:
+     Q d.f. p-value
+ 53.82   31  0.0067
+
+Details of meta-analysis methods:
+- Inverse variance method
+- Maximum-likelihood estimator for tau^2
+- Calculation of I^2 based on Q
+- Prediction interval based on t-distribution (df = 31)
+- Trim-and-fill method to adjust for funnel plot asymmetry (L-estimator)
+- Logit transformation</code></pre>
+</div>
+</div>
+</li>
+</ul></section><section id="modelos-multinivel" class="slide level2"><h2>Modelos multinivel</h2>
+<ul>
+<li class="fragment"><p>Cuando un mismo estudio aporta múltiples estimadores de efecto (distintos moderadores), se necesita modelar la <strong>falta de independencia</strong> entre los mismos.</p></li>
+<li class="fragment"><p>Si bien todos los modelos de meta-análisis pueden considerarse como multinivel, este término refiere específicamente a aquellos que incorporan una tercera capa de variabilidad llamada <strong>heterogeneidad intraestudio</strong>.</p></li>
+</ul></section><section class="slide level2"><h3 id="implementación-en-r-2">Implementación en R</h3>
+<ul>
+<li class="fragment">
+<p>Usaremos el dataset <code>dat.bornmann2007</code> sobre sesgo de género en adjudicación de becas y subsidios de investigación:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="co"># Cargar datos</span></span>
+<span id="cb32-2"><a href=""></a>datos_multi  <span class="ot">&lt;-</span> dat.bornmann2007 <span class="sc">|&gt;</span>    </span>
+<span id="cb32-3"><a href=""></a>  <span class="co"># Crear identificador único para cada fila</span></span>
+<span id="cb32-4"><a href=""></a>  <span class="fu">rowid_to_column</span>(<span class="at">var =</span> <span class="st">"id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+<li class="fragment"><p>Podemos ajustar modelos multinivel con <code>meta</code> añadiendo el argumento <code>cluster</code>.</p></li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Como cada estudio aporta más de una observación, usamos <code>study</code> como clúster y el número de fila (<code>id</code>) como identificador único:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb33" data-code-line-numbers="8-10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>mod_multi <span class="ot">&lt;-</span> <span class="fu">metabin</span>(<span class="at">event.e =</span> waward,   <span class="co"># Mujeres becadas</span></span>
+<span id="cb33-2"><a href=""></a>                     <span class="at">n.e =</span> wtotal,       <span class="co"># Total mujeres</span></span>
+<span id="cb33-3"><a href=""></a>                     <span class="at">event.c =</span> maward,   <span class="co"># Varones becados</span></span>
+<span id="cb33-4"><a href=""></a>                     <span class="at">n.c =</span> mtotal,       <span class="co"># Total varones</span></span>
+<span id="cb33-5"><a href=""></a>                     <span class="at">data =</span> datos_multi,</span>
+<span id="cb33-6"><a href=""></a>                     <span class="at">sm =</span> <span class="st">"OR"</span>,</span>
+<span id="cb33-7"><a href=""></a>                     <span class="at">common =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-8"><a href=""></a>                     <span class="at">studlab =</span> id,</span>
+<span id="cb33-9"><a href=""></a>                     <span class="at">cluster =</span> study,</span>
+<span id="cb33-10"><a href=""></a>                     <span class="at">subgroup =</span> type</span>
+<span id="cb33-11"><a href=""></a>                     )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section class="slide level2"><div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>mod_multi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of studies: n = 21
+Number of estimates: k = 66
+Number of observations: o = 353725 (o.e = 74060, o.c = 279665)
+Number of events: e = 109357
+
+                         OR           95%-CI     z p-value
+Random effects model 0.9039 [0.8329; 0.9810] -2.42  0.0155
+
+Quantifying heterogeneity (with 95%-CIs):
+ tau^2.1 = 0.0161 [0.0040; 0.0555]; tau.1 = 0.1268 [0.0630; 0.2357] (between cluster)
+ tau^2.2 = 0.0038 [0.0008; 0.0146]; tau.2 = 0.0613 [0.0285; 0.1208] (within cluster)
+ I^2 = 70.6% [62.4%; 77.1%]; H = 1.85 [1.63; 2.09]
+
+Test of heterogeneity:
+      Q d.f.  p-value
+ 221.28   65 &lt; 0.0001
+
+Results for subgroups (random effects model):
+                    k     OR           95%-CI  tau^2    tau     Q   I^2
+type = Fellowship  26 0.8320 [0.7602; 0.9105] 0.0213 0.1460 59.56 58.0%
+type = Grant       40 0.9850 [0.9094; 1.0669] 0.0157 0.1255 73.93 47.2%
+
+Details of meta-analysis methods:
+- Inverse variance method (three-level model)
+- Restricted maximum-likelihood estimator for tau^2
+- Profile-Likelihood method for confidence interval of tau^2 and tau
+- Calculation of I^2 based on Q</code></pre>
+</div>
+</div>
+<ul>
+<li class="fragment"><p><code>tau^2.1</code>: es la heterogeneidad entre clústers (estudios).</p></li>
+<li class="fragment"><p><code>tau^2.2</code>: es la heterogeneidad intra-clúster (estudio).</p></li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment"><p>Para obtener valores de <span class="math inline">\(I^2\)</span>, bondad de ajuste y/o analizar sesgo de publicación, debemos ajustar el modelo multinivel usando <code>metafor</code>.</p></li>
+<li class="fragment">
+<p>Esto a su vez nos permite usar herramientas para gráficos avanzados como <code>metaviz</code> y <code>orchaRd</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="co"># Instalar paquetes adicionales</span></span>
+<span id="cb36-2"><a href=""></a>    remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"daniel1noble/orchaRd"</span>)</span>
+<span id="cb36-3"><a href=""></a>    remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"MathiasHarrer/dmetar"</span>)</span>
+<span id="cb36-4"><a href=""></a>    <span class="fu">install.packages</span>(<span class="st">"metaviz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="co"># Cargar paquetes</span></span>
+<span id="cb37-2"><a href=""></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
+<span id="cb37-3"><a href=""></a>  metafor,</span>
+<span id="cb37-4"><a href=""></a>  dmetar,</span>
+<span id="cb37-5"><a href=""></a>  orchaRd,</span>
+<span id="cb37-6"><a href=""></a>  metaviz</span>
+<span id="cb37-7"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Primero calculamos los estimadores de efecto individuales con <code>escalc()</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a>datos_multi <span class="ot">&lt;-</span> <span class="fu">escalc</span>(<span class="at">measure =</span> <span class="st">"OR"</span>, </span>
+<span id="cb38-2"><a href=""></a>                        <span class="at">ai =</span> waward,</span>
+<span id="cb38-3"><a href=""></a>                        <span class="at">n1i =</span> wtotal,</span>
+<span id="cb38-4"><a href=""></a>                        <span class="at">ci =</span> maward,</span>
+<span id="cb38-5"><a href=""></a>                        <span class="at">n2i =</span> mtotal,</span>
+<span id="cb38-6"><a href=""></a>                        <span class="at">data =</span> datos_multi, </span>
+<span id="cb38-7"><a href=""></a>                        <span class="at">slab =</span> study)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+<li class="fragment">
+<p>Ajustamos el modelo con <code>rma.mv()</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>mod_multi2 <span class="ot">&lt;-</span> <span class="fu">rma.mv</span>(<span class="at">yi =</span> yi,</span>
+<span id="cb39-2"><a href=""></a>                         <span class="at">V =</span> vi,</span>
+<span id="cb39-3"><a href=""></a>                         <span class="at">data =</span> datos_multi,</span>
+<span id="cb39-4"><a href=""></a>                         <span class="at">random =</span> <span class="sc">~</span>  <span class="dv">1</span><span class="sc">|</span>study<span class="sc">/</span>id,</span>
+<span id="cb39-5"><a href=""></a>                         <span class="at">mods =</span> <span class="sc">~</span> type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Podemos ver la tabla de coeficientes (en log-OR) con la función <code>mod_results()</code> de <code>orchaRd</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">mod_results</span>(mod_multi2, </span>
+<span id="cb40-2"><a href=""></a>            <span class="at">group =</span> <span class="st">"study"</span>,</span>
+<span id="cb40-3"><a href=""></a>            <span class="at">mod =</span> <span class="st">"type"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        name    estimate    lowerCL     upperCL    lowerPR      upperPR
+1 Fellowship -0.20101927 -0.2851769 -0.11686163 -0.3957853 -0.006253206
+2      Grant -0.01203987 -0.0869243  0.06284457 -0.2029822  0.178902506</code></pre>
+</div>
+</div>
+</li>
+<li class="fragment">
+<p>La bondad de ajuste (<span class="math inline">\(R^2\)</span>) se obtiene con la función <code>r2_ml()</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">r2_ml</span>(mod_multi2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   R2_marginal R2_conditional 
+     0.5187737      0.7874844 </code></pre>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Accedemos a los <span class="math inline">\(I^2\)</span> intra e interclúster con <code>i2_ml()</code> de <code>orchaRd</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a><span class="fu">i2_ml</span>(mod_multi2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   I2_Total    I2_study I2_study/id 
+   56.13549    31.34535    24.79014 </code></pre>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Podemos graficar el aporte de cada componente de varianza usando <code>dmetar</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="fu">mlm.variance.distribution</span>(mod_multi2) <span class="sc">|&gt;</span> </span>
+<span id="cb46-2"><a href=""></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure><p><img data-src="index_files/figure-revealjs/unnamed-chunk-34-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Para evaluar sesgo de publicación quitamos los moderadores del modelo:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>mod_bias <span class="ot">&lt;-</span> <span class="fu">update</span>(mod_multi2, <span class="at">mods =</span> <span class="sc">~</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+<li class="fragment">
+<p>Evaluamos sesgo de publicación (solo test de Begg):</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">ranktest</span>(mod_bias)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Rank Correlation Test for Funnel Plot Asymmetry
+
+Kendall's tau = 0.0191, p = 0.8255</code></pre>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><ul>
+<li class="fragment">
+<p>Podemos generar <em>funnel plots</em> visualmente atractivos con <code>metaviz</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="fu">viz_funnel</span>(mod_bias, </span>
+<span id="cb50-2"><a href=""></a>           <span class="at">group =</span> <span class="fu">factor</span>(datos_multi<span class="sc">$</span>type)) <span class="sc">+</span></span>
+<span id="cb50-3"><a href=""></a></span>
+<span id="cb50-4"><a href=""></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure><p><img data-src="index_files/figure-revealjs/unnamed-chunk-37-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</li>
+</ul></section><section class="slide level2"><h3 id="orchard-plot">Orchard plot</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">orchard_plot</span>(mod_multi2, <span class="at">mod =</span> <span class="st">"type"</span>, <span class="at">group =</span> <span class="st">"study"</span>,</span>
+<span id="cb51-2"><a href=""></a>             <span class="at">xlab =</span> <span class="st">"log(OR)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-38-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section><section class="slide level2"><h3 id="caterpillar-plot">Caterpillar plot</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="fu">caterpillars</span>(mod_multi2, <span class="at">mod =</span> <span class="st">"type"</span>, <span class="at">group =</span> <span class="st">"study"</span>,</span>
+<span id="cb52-2"><a href=""></a>             <span class="at">xlab =</span> <span class="st">"log(OR)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-39-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section><section class="slide level2"><h3 id="análisis-de-sensibilidad">Análisis de sensibilidad</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="co"># Leave-one-out</span></span>
+<span id="cb53-2"><a href=""></a>leave1 <span class="ot">&lt;-</span> <span class="fu">leave_one_out</span>(mod_multi2, <span class="at">group =</span> <span class="st">"study"</span>)</span>
+<span id="cb53-3"><a href=""></a></span>
+<span id="cb53-4"><a href=""></a><span class="co"># Gráfico</span></span>
+<span id="cb53-5"><a href=""></a><span class="fu">orchard_leave1out</span>(leave1, <span class="at">xlab =</span> <span class="st">"log(OR)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-40-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section><section class="slide level2">
+<img data-src="images/1659256292304.jpg" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><h4 style="text-align: center" id="muchas-gracias">Muchas gracias!!!</h4>
+
 </section></section>
 </div>
   <div class="quarto-auto-generated-content" style="display: none;">

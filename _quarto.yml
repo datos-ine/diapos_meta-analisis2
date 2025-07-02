@@ -13,6 +13,7 @@ format:
       theme: whiteboard
     logo: logos_ine.svg
     incremental: true
+    code-overflow: wrap
     slide-number: true
     theme: simple
     css: custom.css
